@@ -1,2 +1,4 @@
 # strace_fileaccess
-strace a program and collect filenames that are being accessed and opened
+Monitor a program's file system access by collecting filenames that are being accessed and opened
+
+Utilizes Linux strace to trace syscalls (currently access & openat)
