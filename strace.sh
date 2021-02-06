@@ -6,8 +6,8 @@ function usage() {
    echo "Usage:"
    echo -e "\t$0 -p [prozess name to attach to]"
    echo -e "\t$0 -s [prozess name to start strace with]"
-   echo -e "\t$0 -c [output file for cleanup]"
-   echo -e "\twrites all accessed files into a file"
+   echo -e "\t$0 -c [output file for cleanup (sort, dedup and beautify)]"
+   echo -e "Writes all accessed files into a file (\$date-\$time_\$processname)"
    exit 1
 }
 
@@ -18,7 +18,6 @@ then
 fi
 
 date=`date +"%Y%m%d-%H%M"`
-#echo $date
 filename="${date}_${2}"
 
 # attach strace to process name (first PID)
@@ -30,7 +29,7 @@ then
 	#sudo strace -p $pid 2>&1 | grep -E "openat|access" | tee "$filename"
 	sudo strace -p $(pgrep "$prog" | head -n1) -e trace=openat,access 2>&1 | tee "$filename"
 
-# start strace with program as parameter
+# start program via strace
 elif [ $1 = "-s" ] && [ $# -eq 2 ]
 then
 	prog="$2"
